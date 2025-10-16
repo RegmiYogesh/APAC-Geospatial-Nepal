@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — APAC Geospatial Nepal</title>
+  <link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+
+  <!-- ================================
+       Header
+  ================================ -->
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">APAC <span>Geospatial</span></div>
+        <div class="tag">Remote Sensing, GIS, LiDAR, SAR</div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html" class="active cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================================
+       Hero Section
+  ================================ -->
+  <section class="hero-modern">
+    <div class="overlay"></div>
+    <div class="container text-center">
+      <h1>Get in Touch with APAC Geospatial Nepal</h1>
+      <p>Reach out for collaborations, enquiries, or project proposals.</p>
+    </div>
+  </section>
+
+ <main class="container content">
+  <form class="contact-form" onsubmit="submitForm(event)">
+    <label>Name
+      <input type="text" id="name" name="name" placeholder="Your Full Name" required>
+    </label>
+
+    <label>Phone Number
+      <input type="number" id="phone" name="phone" placeholder="98********" required>
+    </label>
+
+    <label>Email
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+    </label>
+
+    <label>Message
+      <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+    </label>
+
+    <button class="btn" type="submit" id="submitBtn">Send Message</button>
+    <p id="statusMsg" style="margin-top: 10px; font-weight: bold;"></p>
+  </form>
+
+  <h3>Our Office</h3>
+  <p><strong>Location:</strong> Kathmandu, Nepal</p>
+  <p><strong>Email:</strong> yregmi@apacgeospatial.com</p>
+  <p><strong>Phone:</strong> +977-9867176736</p>
+</main>
+
+<!-- ================================
+     Footer
+================================ -->
+<footer class="site-footer small">
+  <div class="container">
+    © APAC Geospatial Nepal — All rights reserved.
+  </div>
+</footer>
+
+<!-- ================================
+     JS for Google Sheet Form Submission
+================================ -->
+<script>
+  const scriptURL =""
+  async function submitForm(event) {
+    event.preventDefault();
+
+    const submitBtn = document.getElementById("submitBtn");
+    const statusMsg = document.getElementById("statusMsg");
+
+    // Disable button & show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    statusMsg.textContent = "";
+    statusMsg.style.color = "#333";
+
+    const formData = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      email: document.getElementById("email").value,
+      message: document.getElementById("message").value
+    };
+
+    try {
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyRwmGuxd8HYKYW9YH3B_HWE33EBoKrzTW_iqIYDj4o4bSgzBV7Z9VQPKJDQ4Af3GCu/exec";
+
+      await fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      // Success feedback
+      statusMsg.textContent = "✅ Thank you! Your message has been sent successfully.";
+      statusMsg.style.color = "green";
+      document.querySelector(".contact-form").reset();
+
+    } catch (error) {
+      console.error("Error:", error);
+      statusMsg.textContent = "❌ Failed to send message. Please try again.";
+      statusMsg.style.color = "red";
+    }
+
+    // Re-enable button
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send Message";
+  }
+</script>
+
+</body>
+</html>
+
+<!--https://script.google.com/macros/s/AKfycbyRwmGuxd8HYKYW9YH3B_HWE33EBoKrzTW_iqIYDj4o4bSgzBV7Z9VQPKJDQ4Af3GCu/exec-->
